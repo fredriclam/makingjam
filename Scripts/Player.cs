@@ -20,7 +20,12 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//MovePlayer ();
-		
+		Vector3 pos = transform.position;
+		pos.y = Mathf.Clamp(transform.position.y,-700,700);
+		pos.x = Mathf.Clamp(transform.position.x,-700,700);
+		pos.z = Mathf.Clamp (transform.position.z, -700, 700);
+		transform.position=pos;
+
 	}
 		
 
@@ -65,10 +70,14 @@ public class Player : MonoBehaviour {
 	void OnTriggerEnter(Collider other)
 	{
 		
-		if (other.name != "Energy(Clone)") {
+		if (other.name == "Enemy(Clone)") {
 			energyLevel--;
-			decreaseVelocity ();
 			hasCollision = true;//DC have to make a script to deal with this
+			if (energyLevel < 0) {
+				energyLevel = 0;
+			}
+			} else if (other.name == "DeathSphere") {
+		//nothing
 		} else {
 			energyLevel++;
 			increaseVelocity ();

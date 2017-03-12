@@ -5,14 +5,18 @@ using UnityEngine;
 public class EnemyMove : MonoBehaviour {
 
 	Rigidbody rb;
-	float difficulty;
-	bool isMove;
 	float zPos;
 	float xPos;
 	float yPos;
+	public float yBounds;
+	public float xBounds;
+	public float zBounds;
+	public GameObject[] enemies;
+	GameObject player;
 	float radius;
 	// Use this for initialization
 	void Start () {
+		player = GameObject.Find ("Player");
 		zPos= Random.Range (1,findSpeed()/3);
 		xPos= Random.Range (-1*findSpeed(),1*findSpeed()/3);
 		yPos= Random.Range (-1*findSpeed(),1*findSpeed()/3);
@@ -24,15 +28,36 @@ public class EnemyMove : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		difficulty = ObjectGenerator.difficulty;
-		if (isActiveAndEnabled && !isMove) {
-			//zPos= Random.Range (1,findSpeed());
-			//xPos= Random.Range (-findSpeed()*10,findSpeed()*10);
-			//yPos= Random.Range (-findSpeed()*10,findSpeed()*10);
-			//Move1();
+		enemies = GameObject.FindGameObjectsWithTag ("Enemy");
+		if (isActiveAndEnabled) {
+		}
+		DeleteThis ();
+	}
+
+	void InRange()
+	{
+		for(int i =0; i<enemies.Length;i++)
+		{
+			if(enemies[i]!=null)
+			{
+				if(Vector3.Distance(transform.position,enemies[i].transform.position)<radius)
+				{
+					Destroy(this.gameObject);
+					ObjectGenerator.enemyNum--;
+				}
+			}
+		}
+	}
+
+	void DeleteThis()
+	{
+		if (Mathf.Abs (transform.position.z - player.transform.position.z) > zBounds||Mathf.Abs (transform.position.x - player.transform.position.x) > xBounds||Mathf.Abs (transform.position.y - player.transform.position.y) > yBounds) {
+			ObjectGenerator.enemyNum--;
+			Destroy (this.gameObject);
 		}
 
 	}
+
 		
 	void OnTriggerEnter(Collider other)
 	{
@@ -46,7 +71,7 @@ public class EnemyMove : MonoBehaviour {
 
 	float findSpeed()//finds max speed based on difficulty
 	{
-		return 0.1f;
+		return 10f;
 	}
 		
 	void Move1()

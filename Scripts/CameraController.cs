@@ -7,6 +7,7 @@ public class CameraController : MonoBehaviour {
     public GameObject TrackedObject;
     private Rigidbody TrackedRigidBody;
     public float maxFollowDistance;
+    public float minFollowDistance;
     private float followDistance;
     private float dtheta = 1;
     private Vector3 relativePosition;
@@ -14,6 +15,7 @@ public class CameraController : MonoBehaviour {
     private Vector3 lastCameraPosition;
     private Quaternion cameraHeading;
     private Quaternion lastCameraHeading;
+    private float minPolarAngle = 15;
     private float pitch;
     private float yaw;
     public float anglingSensitivity;
@@ -75,15 +77,20 @@ public class CameraController : MonoBehaviour {
             followDistance = maxFollowDistance * (1.5f - trackedVelocity.magnitude / SugarController.lightSpeed);
             if (followDistance > maxFollowDistance)
                 followDistance = maxFollowDistance;
+            if (followDistance < minFollowDistance)
+                followDistance = minFollowDistance;
         }
         else {
             followDistance = maxFollowDistance;
         }
 
         // Get new position if velocity is not zero
+        Vector3 velocityUnitVector = trackedVelocity / trackedVelocity.magnitude;
+        // Avoid singularity when facing directly upward
+        if (Vector3.Angle(Vector3.up, velocityUnitVector) < minPolarAngle)
+            velocityUnitVector[1] = Mathf.Sign(velocityUnitVector[1]) *
+                Mathf.Sqrt(velocityUnitVector[2] * velocityUnitVector[2] + velocityUnitVector[0] * velocityUnitVector[0]) / Mathf.Tan(minPolarAngle);
         if (trackedVelocity.magnitude != 0) {
-            // Unit vector
-            Vector3 velocityUnitVector = trackedVelocity / trackedVelocity.magnitude;
             cameraPosition = TrackedRigidBody.position - followDistance * velocityUnitVector;
             // Calculate heading of the camera
             Quaternion rotation = Quaternion.LookRotation(velocityUnitVector);
@@ -93,6 +100,9 @@ public class CameraController : MonoBehaviour {
             cameraPosition = lastCameraPosition;
             cameraHeading = lastCameraHeading;
         }
+
+        
+
         // Save camera position and heading
         lastCameraPosition = cameraPosition;
         lastCameraHeading = cameraHeading;

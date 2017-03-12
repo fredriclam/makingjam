@@ -9,10 +9,12 @@ public class Dilation : MonoBehaviour {
     private Vector3 originalScale;
     private Rigidbody trackedRigidBody;
     private Rigidbody currentRigidBody;
-    public static float bigG = 0f;
-    public static float characteristicLength = 5.0f;
+    public static float bigG = 500f;
+    public static float characteristicLength = 50.0f;
     public static float virtualRadius = 1.0f;
 
+    private Vector3 lastFramePosition;
+    private Vector3 lastThisPosition;
     private Vector3 gamma;
     private Vector3 lastGamma;
 
@@ -27,11 +29,12 @@ public class Dilation : MonoBehaviour {
         originalScale = this.transform.localScale;
         // Initialize
         lastGamma = new Vector3(1, 1, 1);
-
+        lastFramePosition = trackedRigidBody.position;
+        lastThisPosition = this.transform.position;
     }
 	
 	// Update is called once per frame
-	bool firstTime;
+	bool firstTime = true;
 	void FixedUpdate () {
         // Grab the tracked reference frame
         Rigidbody playerReferenceFrame = TrackedObject.GetComponent<Rigidbody>();
@@ -44,13 +47,13 @@ public class Dilation : MonoBehaviour {
         // Grab frame position
         Vector3 framePosition = TrackedObject.transform.position;
         // Boost
-		if (!firstTime) {
-			this.transform.position = SugarController.InverseBoostedPosition (framePosition, this.transform.position - framePosition, lastGamma);
-			firstTime = true;
-		}
+		this.transform.position = SugarController.InverseBoostedPosition (lastFramePosition, lastThisPosition - framePosition, lastGamma);
+		
 		this.transform.position = SugarController.MapToBoostedPosition (framePosition, this.transform.position - framePosition, gamma);
         // Save relative velocity 
         lastGamma = gamma;
+        lastFramePosition = framePosition;
+        lastThisPosition = this.transform.position;
 
         // Apply gravity
         ApplyGravity();
