@@ -9,6 +9,9 @@ public class Dilation : MonoBehaviour {
     private Vector3 originalScale;
     private Rigidbody trackedRigidBody;
     private Rigidbody currentRigidBody;
+    public static float bigG = 2.0f;
+    public static float characteristicLength = 5.0f;
+    public static float virtualRadius = 1.0f;
 
     private Vector3 gamma;
     private Vector3 lastGamma;
@@ -44,5 +47,22 @@ public class Dilation : MonoBehaviour {
         
         // Save relative velocity 
         lastGamma = gamma;
+
+        // Apply gravity
+        ApplyGravity();
+    }
+
+    private void ApplyGravity() {
+        // Calculate gravitational force
+        // Relative position normalized by characteristic length (smears attraction force)
+        Vector3 relativePosition = (trackedRigidBody.position - currentRigidBody.position) / characteristicLength;
+        // Calculate ||r||, and add a virtual radius to remove singularity
+        float virtualRelativePosition = relativePosition.magnitude + virtualRadius;
+        // Calculuates ||r||^3
+        float r3 = virtualRelativePosition * virtualRelativePosition * virtualRelativePosition;
+        // Calculate gravitational force
+        Vector3 force = - bigG * currentRigidBody.mass * trackedRigidBody.mass * relativePosition / r3;
+        // Apply force to tracked body
+        trackedRigidBody.AddForce(force);
     }
 }
