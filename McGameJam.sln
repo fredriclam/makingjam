@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "McGameJam", "Assembly-CSharp-firstpass.csproj", "{79374124-A748-747B-513D-0B508AA60B85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "McGameJam", "Assembly-CSharp.csproj", "{22D0B8D4-1F87-F9E5-32D5-A86FF84DE8B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "McGameJam", "Assembly-CSharp-Editor-firstpass.csproj", "{8C673EEF-AB10-AA8D-5325-721F8499AE5E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79374124-A748-747B-513D-0B508AA60B85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79374124-A748-747B-513D-0B508AA60B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79374124-A748-747B-513D-0B508AA60B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79374124-A748-747B-513D-0B508AA60B85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22D0B8D4-1F87-F9E5-32D5-A86FF84DE8B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22D0B8D4-1F87-F9E5-32D5-A86FF84DE8B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22D0B8D4-1F87-F9E5-32D5-A86FF84DE8B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22D0B8D4-1F87-F9E5-32D5-A86FF84DE8B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C673EEF-AB10-AA8D-5325-721F8499AE5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C673EEF-AB10-AA8D-5325-721F8499AE5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C673EEF-AB10-AA8D-5325-721F8499AE5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C673EEF-AB10-AA8D-5325-721F8499AE5E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
