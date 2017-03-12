@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GraphicsController : MonoBehaviour {
 
 	public Text energyLvl;
+	public Text pressSpace;
 	public Text maxV;
 	public Text deadtext;
 	public Text timeText;
@@ -13,11 +14,14 @@ public class GraphicsController : MonoBehaviour {
 	public Image img;
 	public Image black;
 	public static bool death;
-
+	bool wait;
+	Component arrow;
 
 	// Use this for initialization
 	void Start () {
 		death = false;
+		wait = false;
+		arrow =GetComponent<BlinkArrow> ();
 		//img.color = Color.clear;
 		player = GameObject.Find ("Player");
 		transform.position=player.transform.position;
@@ -36,12 +40,38 @@ public class GraphicsController : MonoBehaviour {
 		}
 	}
 
+	publid static void Arrow()
+	{
+		
+	}
+
+	void resetGame()
+	{
+		if(Time.time>lastTime+1f)
+		{
+			pressSpace.enabled = true;
+			if (Input.GetKey (KeyCode.Space)) {
+				death = false;
+				black.enabled = false;
+				pressSpace.enabled = false;
+				death = false;
+				deadtext.enabled = false;
+				DeathExpand.timeLimit = 5 * 60;
+				SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
+			}
+		}
+
+
+	}
+
+
 	// Update is called once per frame
 	bool fade;
 	void Update () {
 
 		if (death) {
 			Death ();
+			resetGame ();
 		}
 
 		if (fade) {
@@ -74,16 +104,9 @@ public class GraphicsController : MonoBehaviour {
 		deadtext.enabled = true;
 		player.GetComponent<SugarController> ().enabled=false;
 		black.enabled = true;
-		GameObject a =GameObject.Find ("RealDeathSphere 1(Clone)");
-		if(Input.GetKey(KeyCode.Space))
-		{			
-			SceneManager.LoadScene (SceneManager.GetActiveScene().name);
-			black.enabled = false;
-			death = false;
-			deadtext.enabled = false;
-			DeathExpand.timeLimit = 5 * 60;
-			a.transform.localScale= new Vector3(10f,10f,10f);
-
+		if (!wait) {
+			lastTime = Time.time;
+			wait = true;
 		}
 	}
 }

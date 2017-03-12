@@ -12,7 +12,7 @@ public class DeathExpand : MonoBehaviour {
 	void Start () {
 		player = GameObject.Find ("Player");
 		scale = 2f;
-		timeLimit = 10;
+		timeLimit = Time.time+5*60;
 		a = true;
 		Debug.Log (transform.localScale);
 	}

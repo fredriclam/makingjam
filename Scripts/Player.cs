@@ -69,7 +69,7 @@ public class Player : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other)
 	{
-		
+		BlinkArrow.Blink ();
 		if (other.name == "Enemy(Clone)") {
 			energyLevel--;
 			hasCollision = true;//DC have to make a script to deal with this
